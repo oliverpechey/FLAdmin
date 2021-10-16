@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <div class="ojp-overlay ojp-transparent"></div>
+      <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark ojp-navbar">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">FLAdmin</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="https://github.com/ollieraikkonen/FLAdmin">Github</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Prereqs
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="https://mosquitto.org/download/">MQTT Broker</a></li>
+                  <li><a class="dropdown-item" href="https://github.com/fl-devs/FLHook">MQTT Plugin (FLHook)</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    <!-- Container -->
+    <div class="container-fluid text-center">
+        <div class="row my-1">
+          <div class="m-2 col ojp-transparent ojp-border text-white">
+            <canvas id="load-chart"></canvas>
+          </div>
+          <div class="m-2 col ojp-transparent ojp-border text-white">
+            <canvas id="memory-chart"></canvas>
+          </div>
+          <div class="m-2 col ojp-transparent ojp-border text-white">
+            <canvas id="player-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+    <!-- JS Files -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/chart.min.js"></script>
+    <script src="js/scripts.js"></script>
+</body>
+</html>

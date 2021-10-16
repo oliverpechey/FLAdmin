@@ -1,0 +1,23 @@
+{
+  "name": "fladmin",
+  "version": "1.0.0",
+  "description": "A node application to manage FLServer.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ollieraikkonen/FLAdmin.git"
+  },
+  "author": "Raikkonen (Oliver Pechey)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ollieraikkonen/FLAdmin/issues"
+  },
+  "homepage": "https://github.com/ollieraikkonen/FLAdmin#readme",
+  "dependencies": {
+    "bootstrap": "^5.1.3",
+    "express": "^4.17.1"
+  }
+}
