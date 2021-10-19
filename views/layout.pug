@@ -1,0 +1,36 @@
+block variables
+doctype html
+html
+    head
+        meta(charset="utf-8")
+        link(rel="shortcut icon" href="/favicon.ico")
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        title #{title} | FLAdmin
+        link(rel='stylesheet' href='css/bootstrap.min.css')
+        link(rel='stylesheet' href='css/styles.css')
+    body
+    // Navbar
+    nav.navbar.navbar-expand-lg.navbar-dark
+        .container-fluid
+            a.navbar-brand(href='#') FLAdmin
+            button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+                span.navbar-toggler-icon
+            #navbarSupportedContent.collapse.navbar-collapse
+                ul.navbar-nav.me-auto.mb-2.mb-lg-0
+                    li.nav-item
+                        a.nav-link(href='https://github.com/ollieraikkonen/FLAdmin') Github
+                    li.nav-item.dropdown
+                        a#navbarDropdown.nav-link.dropdown-toggle(href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false')
+                            | Prereqs
+                        ul.dropdown-menu(aria-labelledby='navbarDropdown')
+                            li
+                                a.dropdown-item(href='https://mosquitto.org/download/') MQTT Broker
+                            li
+                                a.dropdown-item(href='https://github.com/fl-devs/FLHook') MQTT Plugin (FLHook)
+    // Container
+    .container-fluid.text-center
+        .row.mt-md-1.g-0.g-sm-0.g-md-2.g-lg-3
+            block layout-content
+    script(type='text/javascript', src='js/bootstrap.bundle.min.js')
+    script(type='text/javascript', src='js/chart.min.js')
+    script(type='text/javascript', src='js/scripts.js')

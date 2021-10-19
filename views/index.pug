@@ -1,0 +1,75 @@
+extends layout
+
+mixin chart(name,width)
+    .col-12.col-lg-4(class!=width)
+        .p-2.ojp-border.ojp-transparent
+            canvas(id!=name)
+
+mixin standard_component(title)
+    .col-12.col-lg-6.col-xxl-4 
+        .p-2.ojp-border.ojp-transparent
+            h4=title
+            block
+
+mixin action_item(name)
+    li
+        a.dropdown-item(href="#")=name   
+
+mixin action_button(name)
+    .dropdown 
+        button.btn.dropdown-toggle(id=name data-bs-toggle='dropdown')
+            | Action
+        ul.dropdown-menu(aria-labelledby=name)
+            +action_item('Kick')
+            +action_item('Ban')
+            +action_item('Message')
+
+block layout-content
+    // Server stats charts
+    +chart('load-chart','col-sm-6')
+    +chart('memory-chart','col-sm-6')
+    +chart('player-chart')
+  
+    // Standard Components
+    +standard_component('Players Online')
+        .table-responsive
+            table.table 
+                thead 
+                    tr 
+                        th(scope='col') Client ID
+                        th(scope='col') Name
+                        th(scope='col') IP
+                        th(scope='col') Ping (ms)
+                        th(scope='col') System
+                        th(scope='col') Action
+                tbody    
+                    tr 
+                        th(scope='row') 1
+                        td Ollie 
+                        td 127.0.0.1
+                        td 36
+                        td New Tokyo 
+                        td 
+                            +action_button('actionButton1')
+
+    +standard_component('Recent Players')
+        .table-responsive
+            table.table 
+                thead 
+                    tr
+                        th(scope='col') Name
+                        th(scope='col') IP
+                        th(scope='col') System
+                        th(scope='col') Last Seen
+                tbody 
+                    tr 
+                        td Ollie
+                        td 127.0.0.1
+                        td 36
+                        td New Toyko
+                        td Now
+
+    +standard_component('Chat Log')
+        textarea.form-control(rows='8' disabled readonly)
+            | [14:43] Raikkonen: Testing this blah blah blahyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy&#013;[14:43] Raikkonen: Test    
+    +standard_component('Banned Players')
