@@ -28,3 +28,19 @@ body {
     border-bottom-width: 4px;
     background-color: rgba(2, 17, 20, 0.85);
 }
+
+.ojp-table th, .ojp-table tr {
+    border-color: #a1ecfb;
+}
+
+.ojp-table tbody tr:last-child td, .ojp-table tbody tr:last-child th {
+    border: 0;
+}
+
+.ojp-text-color {
+    color: #a1ecfb;
+}
+.ojp-text-glow {
+    color: #a1ecfb;
+    text-shadow: rgb(161 236 251 / 65%) 0 0 4px;
+}
