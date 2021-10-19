@@ -14,9 +14,8 @@
 </head>
 
 <body>
-  <div class="ojp-overlay ojp-transparent"></div>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark ojp-navbar">
+  <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">FLAdmin</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -46,20 +45,21 @@
   <!-- Container -->
   <div class="container-fluid text-center">
     <div class="row mt-1">
-      <div class="m-2 col .col-md-6 .col-sm-4 ojp-transparent ojp-border text-white">
+      <div class="m-2 col ojp-transparent ojp-border">
         <canvas id="load-chart"></canvas>
       </div>
-      <div class="m-2 col .col-md-6 .col-sm-4 ojp-transparent ojp-border text-white">
+      <div class="m-2 col ojp-transparent ojp-border">
         <canvas id="memory-chart"></canvas>
       </div>
-      <div class="m-2 col .col-md-6 .col-sm-4 ojp-transparent ojp-border text-white">
+      <div class="m-2 col ojp-transparent ojp-border">
         <canvas id="player-chart"></canvas>
       </div>
     </div>
-    <div class="row mt-1">
-      <div class="m-2 col .col-md-6 .col-sm-4 ojp-transparent ojp-border text-white">
-        <h4 class="ojp-text-glow ojp-text-color">Players Online</h4>
-        <table class="table ojp-text-color ojp-table">
+    <div class="row mt-1 g-0 g-md-4">
+      <div class="m-2 pt-1 col ojp-transparent ojp-border">
+        <h4>Players Online</h4>
+        <div class="table-responsive">
+        <table class="table">
           <thead>
             <tr>
               <th scope="col">Client ID</th>
@@ -67,6 +67,7 @@
               <th scope="col">IP</th>
               <th scope="col">Ping (ms)</th>
               <th scope="col">System</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -76,6 +77,18 @@
               <td>127.0.0.1</td>
               <td>36</td>
               <td>New Toyko</td>
+              <td>
+                <div class="dropdown">
+                  <button class="btn dropdown-toggle" type="button" id="actionButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Action
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="actionButton1">
+                    <li><a class="dropdown-item" href="#">Kick</a></li>
+                    <li><a class="dropdown-item" href="#">Ban</a></li>
+                    <li><a class="dropdown-item" href="#">Message</a></li>
+                  </ul>
+                </div>
+              </td>
             </tr>
             <tr>
               <th scope="row">2</th>
@@ -83,6 +96,18 @@
               <td>127.0.0.1</td>
               <td>26</td>
               <td>Omega 2</td>
+              <td>
+                <div class="dropdown">
+                  <button class="btn dropdown-toggle" type="button" id="actionButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Action
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="actionButton2">
+                    <li><a class="dropdown-item" href="#">Kick</a></li>
+                    <li><a class="dropdown-item" href="#">Ban</a></li>
+                    <li><a class="dropdown-item" href="#">Message</a></li>
+                  </ul>
+                </div>
+              </td>
             </tr>
             <tr>
               <th scope="row">3</th>
@@ -90,13 +115,27 @@
               <td>127.0.0.1</td>
               <td>69</td>
               <td>New York</td>
+              <td>
+                <div class="dropdown">
+                  <button class="btn dropdown-toggle" type="button" id="actionButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Action
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="actionButton2">
+                    <li><a class="dropdown-item" href="#">Kick</a></li>
+                    <li><a class="dropdown-item" href="#">Ban</a></li>
+                    <li><a class="dropdown-item" href="#">Message</a></li>
+                  </ul>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
-      <div class="m-2 col .col-md-6 .col-sm-4 ojp-transparent ojp-border text-white">
-        <h4 class="ojp-text-glow">Recent Players</h4>
-        <table class="table ojp-text-color ojp-table">
+      <div class="m-2 pt-1 col ojp-transparent ojp-border">
+        <h4>Recent Players</h4>
+        <div class="table-responsive">
+        <table class="table">
           <thead>
             <tr>
               <th scope="col">Name</th>
@@ -137,6 +176,12 @@
             </tr>
           </tbody>
         </table>
+      </div>
+      </div>
+      <div class="m-2 pt-1 col ojp-transparent ojp-border">
+        <h4>Chat Log</h4>
+        <textarea class="form-control" rows="8" disabled readonly>[14:43] Raikkonen: Testing this blah blah blah&#013;[14:43] Raikkonen: Test
+        </textarea>
       </div>
     </div>
   </div>
