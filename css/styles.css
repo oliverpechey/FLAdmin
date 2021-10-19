@@ -45,3 +45,9 @@ body {
 .form-control {
     border: 0;
 }
+
+@media only screen and (max-width: 767px) {
+    .container-fluid {
+        padding: 0;
+    }
+  }
