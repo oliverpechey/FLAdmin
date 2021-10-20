@@ -14,26 +14,26 @@ const options = {
           }
         },
         x: {
+          type: 'time',
+          time: {
+            displayFormats: {
+              millisecond: 'HH:mm:ss',
+              second: 'HH:mm:ss',
+              minute: 'HH:mm'
+          }
+          },
           ticks: {
             color: "#a1ecfb",
+            source: 'data',
+            maxTicksLimit: 10,
+            maxRotation: 0
           }
         }
     }
 }
 
-const labels = [
-    '30m',
-    '25m',
-    '20m',
-    '15m',
-    '10m',
-    '5m',
-    'now'
-  ];
-
 // Load Chart 
   const load_data = {
-    labels: labels,
     datasets: [{
       label: 'Server Load (ms)',
       backgroundColor: '#017682',
@@ -55,7 +55,6 @@ const labels = [
 
   // Memory Chart
   const memory_data = {
-    labels: labels,
     datasets: [{
       label: 'Memory Usage (MB)',
       backgroundColor: 'rgb(35,191,170)',
@@ -77,7 +76,6 @@ const labels = [
 
   // Player Chart
   const player_data = {
-    labels: labels,
     datasets: [{
       label: 'Player Count',
       backgroundColor: 'rgb(129,197,215)',
@@ -114,9 +112,15 @@ const labels = [
         console.log('players');
         break;
       case 'load':
-        if(!isNaN(message))
-          load_data.datasets[0].data.push('' + message);
+        if(!isNaN(message)) {
+          const d = new Date();
+          var load_item = {
+            y: '' + message,
+            x: d.getTime()
+          };
+          load_data.datasets[0].data.push(load_item);
           loadChart.update();
+        }
           console.log(load_data.datasets[0].data);
         break;
       case 'memory':
