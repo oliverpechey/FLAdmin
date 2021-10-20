@@ -9,8 +9,10 @@ const options = {
     },
     scales: {
         y: {
+          min: 0,
           ticks: {
             color: "#a1ecfb",
+            precision:0
           }
         },
         x: {
