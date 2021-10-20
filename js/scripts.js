@@ -38,7 +38,7 @@ const labels = [
       label: 'Server Load (ms)',
       backgroundColor: '#017682',
       borderColor: '#017682',
-      data: [0, 10, 5, 2, 20, 30, 0],
+      data: [],
     }]
   };
 
@@ -96,3 +96,30 @@ const labels = [
     document.getElementById('player-chart'),
     player_config
   );
+
+  // MQTT Config
+  var client = mqtt.connect('ws://localhost:8080')
+
+  client.on('connect', function () {
+    client.subscribe('players', { qos: 0 });
+    client.subscribe('load', { qos: 0 });
+    client.subscribe('memory', { qos: 0 });
+    client.publish('players', 'Test', { qos: 0, retain: false })
+  })
+  
+  client.on('message', function (topic, message, packet) {
+    console.log('Received Message:= ' + message.toString() + '\nOn topic:= ' + topic)
+    switch(topic) {
+      case 'players':
+        console.log('players');
+        break;
+      case 'load':
+        if(!isNaN(message))
+          load_data.datasets[0].data.push('' + message);
+          loadChart.update();
+          console.log(load_data.datasets[0].data);
+        break;
+      case 'memory':
+        break;
+    }
+  })
