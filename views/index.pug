@@ -52,22 +52,33 @@ block layout-content
                         td 
                             +action_button('actionButton1')
 
-    +standard_component('Recent Players')
-        .table-responsive
-            table.table 
-                thead 
-                    tr
-                        th(scope='col') Name
-                        th(scope='col') IP
-                        th(scope='col') System
-                        th(scope='col') Last Seen
-                tbody 
-                    tr 
-                        td Ollie
-                        td 127.0.0.1
-                        td 36
-                        td New Toyko
-                        td Now
+    .col-12.col-lg-6.col-xxl-4 
+        .p-2.ojp-border.ojp-transparent(style='position:relative;')
+            h4 Recent Players
+            .dropdown(style='position:absolute;right:0.5rem;top:0.5rem;')
+                button#recentPlayerButton.btn.dropdown-toggle(type='button' data-bs-toggle='dropdown' aria-expanded='false') Time
+                ul.dropdown-menu(aria-labelledby='recentPlayerButton')
+                    li
+                      a.dropdown-item(href='#') Last Day
+                    li
+                      a.dropdown-item(href='#') Last Week
+                    li
+                      a.dropdown-item(href='#') Last Month    
+            .table-responsive
+                table.table 
+                    thead 
+                        tr
+                            th(scope='col') Name
+                            th(scope='col') IP
+                            th(scope='col') System
+                            th(scope='col') Last Seen
+                    tbody 
+                        tr 
+                            td Ollie
+                            td 127.0.0.1
+                            td 36
+                            td New Toyko
+                            td Now
 
     +standard_component('Chat Log')
         textarea.form-control(rows='8' disabled readonly)
