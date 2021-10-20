@@ -8,6 +8,14 @@ var express = require("express");
 const path = require("path");
 var app = express();
 
+// Start MQTT server
+const aedes = require('aedes')()
+const server = require('net').createServer(aedes.handle)
+const port = 1883
+server.listen(port, function () {
+  console.log('MQTT started and listening on port ', port)
+})
+
 // Links to modules and directories for use in html files
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use('/css', express.static(__dirname + '/css'));
