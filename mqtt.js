@@ -1,6 +1,5 @@
 // Imports
 require('dotenv').config();
-var parent = require.main.exports;
 
 // Start MQTT server
 const aedes = require('aedes')();
@@ -12,7 +11,6 @@ server.listen(process.env.MQTT_PORT, function () {
 // Start MQTT Web Socket server (for browser)
 const httpServer = require('http').createServer();
 const WebSocket = require('ws');
-const wsPort = process.env.MQTT_WS_PORT;
 
 const wss = new WebSocket.Server({ server: httpServer })
 wss.on('connection', function connection (ws) {
@@ -20,8 +18,8 @@ wss.on('connection', function connection (ws) {
   aedes.handle(duplex);
 })
 
-httpServer.listen(wsPort, function () {
-  console.log('Websocket MQTT server listening on port', wsPort);
+httpServer.listen(process.env.MQTT_WS_PORT, function () {
+  console.log('Websocket MQTT server listening on port', process.env.MQTT_WS_PORT);
 })
 
 // MQTT Callbacks
@@ -52,3 +50,5 @@ aedes.on('subscribe', function (subscriptions, client) {
 aedes.on('client', function (client) {
   console.log('new client', client.id);
 })
+
+exports.aedes = aedes;
