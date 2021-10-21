@@ -4,8 +4,10 @@ This requires an MQTT server as well as FLHook 2.1.0 running the MQTT Plugin.
 */
 
 // MQTT Broker
-var mqtt = require('./mqtt.js');
+exports.mqtt = require('./mqtt.js');
 
 // Website
-var website = require('./website.js');
+exports.website = require('./website.js');
 
+// FLServer monitor
+exports.monitor = require('./monitor.js');

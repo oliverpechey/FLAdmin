@@ -1,5 +1,6 @@
 // Imports
 require('dotenv').config();
+var parent = require.main.exports;
 
 // Start MQTT server
 const aedes = require('aedes')();
