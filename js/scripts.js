@@ -9,8 +9,10 @@ const options = {
     },
     scales: {
         y: {
+          min: 0,
           ticks: {
             color: "#a1ecfb",
+            precision:0
           }
         },
         x: {
@@ -59,7 +61,7 @@ const options = {
       label: 'Memory Usage (MB)',
       backgroundColor: 'rgb(35,191,170)',
       borderColor: 'rgb(35,191,170)',
-      data: [0, 100, 250, 432, 210, 30, 324],
+      data: [],
     }]
   };
 
@@ -121,9 +123,17 @@ const options = {
           load_data.datasets[0].data.push(load_item);
           loadChart.update();
         }
-          console.log(load_data.datasets[0].data);
         break;
       case 'memory':
+        if(!isNaN(message)) {
+          const d = new Date();
+          var memory_item = {
+            y: '' + message,
+            x: d.getTime()
+          };
+          memory_data.datasets[0].data.push(memory_item);
+          memoryChart.update();
+        }
         break;
     }
   })
