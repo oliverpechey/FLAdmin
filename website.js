@@ -1,8 +1,10 @@
 // Imports and init
-var express = require("express");
-var app = express();
-const path = require("path");
-require('dotenv').config();
+import express from 'express';
+import path from 'path';
+import dotenv from 'dotenv';
+const app = express();
+const __dirname = path.resolve();
+dotenv.config();
 
 // Links to modules and directories for use in html files
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
@@ -24,6 +26,8 @@ app.get("/", (req, res) => {
 });
 
 // Standard http listening. TODO Need to implement https
-app.listen(process.env.WEB_PORT,function(){
+app.listen(process.env.WEB_PORT, function () {
   console.log(`Live at Port ${process.env.WEB_PORT}`);
 });
+
+export default {};

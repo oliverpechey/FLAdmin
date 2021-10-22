@@ -1,21 +1,25 @@
 // Imports
-require('dotenv').config();
+import dotenv from 'dotenv'
+import aedes from 'aedes';
+import net from 'net';
+import http from 'http';
+import ws from 'ws';
+
+dotenv.config()
 
 // Start MQTT server
-const aedes = require('aedes')();
-const server = require('net').createServer(aedes.handle);
+const mqtt = aedes();
+const server = net.createServer(mqtt.handle);
 server.listen(process.env.MQTT_PORT, function () {
   console.log('MQTT listening on port', process.env.MQTT_PORT);
 })
 
 // Start MQTT Web Socket server (for browser)
-const httpServer = require('http').createServer();
-const WebSocket = require('ws');
-
-const wss = new WebSocket.Server({ server: httpServer })
-wss.on('connection', function connection (ws) {
-  const duplex = WebSocket.createWebSocketStream(ws);
-  aedes.handle(duplex);
+const httpServer = http.createServer();
+const wss = new ws.Server({ server: httpServer })
+wss.on('connection', function connection(web) {
+  const duplex = ws.createWebSocketStream(web);
+  mqtt.handle(duplex);
 })
 
 httpServer.listen(process.env.MQTT_WS_PORT, function () {
@@ -24,15 +28,15 @@ httpServer.listen(process.env.MQTT_WS_PORT, function () {
 
 // MQTT Callbacks
 
-aedes.on('clientError', function (client, err) {
+mqtt.on('clientError', function (client, err) {
   console.log('MQTT client error:', client.id, err.message, err.stack);
 })
 
-aedes.on('connectionError', function (client, err) {
+mqtt.on('connectionError', function (client, err) {
   console.log('MQTT Cconnection error:', client, err.message, err.stack);
 })
 
-aedes.on('publish', function (packet, client) {
+mqtt.on('publish', function (packet, client) {
   if (packet && packet.payload) {
     console.log('Publish packet:', packet.payload.toString());
   }
@@ -41,14 +45,14 @@ aedes.on('publish', function (packet, client) {
   }
 })
 
-aedes.on('subscribe', function (subscriptions, client) {
+mqtt.on('subscribe', function (subscriptions, client) {
   if (client) {
     console.log('subscribe from client', subscriptions, client.id);
   }
 })
 
-aedes.on('client', function (client) {
+mqtt.on('client', function (client) {
   console.log('new client', client.id);
 })
 
-exports.aedes = aedes;
+export default mqtt;
