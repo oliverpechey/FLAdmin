@@ -46,6 +46,7 @@ const CheckServer = () => {
 
 // Starts FLServer
 const StartServer = () => {
+    console.log('Starting server.');
     exec(`cmd /c "cd /d "${process.env.FLServer}" && FLServer.exe /c"`, function (err, stdout, stderr) {
         if (!stdout || stderr)
             console.log('Couldn\'t start server:' + stderr);
