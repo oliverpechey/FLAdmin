@@ -17,8 +17,10 @@ const Init = (aedes) => {
 const CheckServer = () => {
     exec('tasklist | find "FLServer.exe"', function (err, stdout, stderr) {
         // Server isn't running
-        if (!stdout)
+        if (!stdout) {
+            console.log('Server is not running.')
             StartServer();
+        } 
         else {
             // Get the memory usage from the tasklist line and convert to MB
             let memory = parseInt(stdout.match(/[[0-9]{0,},[0-9]{0,}]{0,}/)[0].replace(',', '').replace('.', '')) / 1024;
