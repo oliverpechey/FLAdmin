@@ -104,14 +104,14 @@ client.on('connect', function () {
   client.subscribe('players', { qos: 0 });
   client.subscribe('load', { qos: 0 });
   client.subscribe('memory', { qos: 0 });
-  client.publish('players', 'Test', { qos: 0, retain: false })
+  //client.publish('players', 'Test', { qos: 0, retain: false })
 })
 
 client.on('message', function (topic, message, packet) {
   console.log('Received Message:= ' + message.toString() + '\nOn topic:= ' + topic)
   switch (topic) {
     case 'players':
-      console.log('players');
+      ReceivePlayers(message);
       break;
     case 'load':
       if (!isNaN(message)) {
@@ -138,20 +138,70 @@ client.on('message', function (topic, message, packet) {
   }
 })
 
-// Populate Recent Players on initial page load
-/*function PopulateRecentPlayers(players) {
-  for(const p of players) {
-    var table = document.getElementById('recentplayers');
-    var tr = table.insertRow();
-    var name = tr.insertCell();
-    var ip = tr.insertCell();
-    var rank = tr.insertCell();
-    var system = tr.insertCell();
-    var lastseen = tr.insertCell();
-    tbody.appendChild(tr);
-  }
-}*/
+// Handle the messages received on the /players topic
+function ReceivePlayers(message) {
+  try {
+    let players = JSON.parse(message);
 
+    for (const p of players) {
+      // Online, add to Online Players
+      if (p.online == true) {
+        // Check if player is already here, and if so update
+        let table = document.getElementById('playersonline');
+        let rows = table.getElementsByTagName('tr');
+        let found = false;
+        for (let r = 1; r < rows.length; r++) {
+          if (rows[r].getElementsByClassName('onlinename')[0].innerHTML == p.name) {
+            // Update entry TODO
+            found = true;
+          }
+        }
+        // Otherwise add a new tr
+        if (!found) {
+          let newRow = table.insertRow();
+
+          let cellClientID = newRow.insertCell();
+          let cellName = newRow.insertCell();
+          let cellIP = newRow.insertCell();
+          let cellRank = newRow.insertCell();
+          let cellSystem = newRow.insertCell();
+          let cellAction = newRow.insertCell();
+
+          let textName = document.createTextNode(p.name);
+          let newText = document.createTextNode('Filler');
+
+          cellClientID.appendChild(newText);
+          cellName.appendChild(textName);
+          cellIP.appendChild(newText);
+          cellRank.appendChild(newText);
+          cellSystem.appendChild(newText);
+          cellAction.appendChild(newText);
+        }
+      }
+      // Offline, add to Recent Players
+      else {
+        // Check if player is already here, and if so update
+        let rows = document.getElementById('recentplayers').getElementsByTagName('tr');
+        let found = false;
+        for (let r = 1; r < rows.length; r++) {
+          if (rows[r].getElementsByClassName('recentname')[0].innerHTML == p.name) {
+            // Update entry TODO
+            found = true;
+          }
+        }
+        // Otherwise add a new tr
+        if (!found) {
+
+        }
+      }
+    }
+  }
+  catch (e) {
+    console.log(`Error in /players topic: ${e}`);
+  }
+}
+
+// Recent Players filter button (UI)
 function Filter(period) {
   switch (period) {
     case 'day':
@@ -171,11 +221,11 @@ function Filter(period) {
   var rows = document.getElementById('recentplayers').getElementsByTagName('tr');
   for (let r = 1; r < rows.length; r++) {
     var playerDate = new Date(rows[r].getElementsByClassName('time')[0].getAttribute('time'));
-    if(playerDate < date)
-      rows[r].style.display = 'none'; 
+    if (playerDate < date)
+      rows[r].style.display = 'none';
     else
       rows[r].style.display = 'table-row';
-    }
+  }
 }
 
 Filter('day');

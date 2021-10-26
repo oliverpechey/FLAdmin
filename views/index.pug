@@ -33,7 +33,7 @@ block layout-content
     // Standard Components
     +standard_component('Players Online')
         .table-responsive
-            table.table 
+            table.table#playersonline
                 thead 
                     tr 
                         th(scope='col') Client ID
@@ -45,7 +45,7 @@ block layout-content
                 tbody    
                     tr 
                         th(scope='row') 1
-                        td Ollie 
+                        td.onlinename Ollie 
                         td 127.0.0.1
                         td 36
                         td New Tokyo 
@@ -76,7 +76,7 @@ block layout-content
                     tbody
                         for val in players
                             tr
-                                td=val.name
+                                td.recentname=val.name
                                 td='Unknown'
                                 td=val.rank
                                 td=val.system 
