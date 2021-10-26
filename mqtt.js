@@ -4,12 +4,8 @@ import aedes from 'aedes';
 import net from 'net';
 import http from 'http';
 import ws from 'ws';
-import playerParser from 'freelancer-save-parser';
 
 dotenv.config();
-
-let players = playerParser.loadPlayerFiles();
-console.log(players);
 
 // Start MQTT server
 const mqtt = aedes();

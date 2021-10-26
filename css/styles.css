@@ -42,6 +42,10 @@ body {
     background-color: rgba(2, 17, 20, 0.95);
 }
 
+.dropdown-item {
+    cursor: pointer;
+}
+
 .form-control {
     border: 0;
 }
