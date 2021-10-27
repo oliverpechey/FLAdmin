@@ -167,14 +167,18 @@ function ReceivePlayers(message) {
           let cellSystem = newRow.insertCell();
           let cellAction = newRow.insertCell();
 
+          let textClientID = document.createTextNode(p.id);
           let textName = document.createTextNode(p.name);
+          let textIP = document.createTextNode(p.ip);
+          let textRank = document.createTextNode(p.rank);
+          let textSystem = document.createTextNode(p.system);
           let newText = document.createTextNode('Filler');
 
-          cellClientID.appendChild(newText);
+          cellClientID.appendChild(textClientID);
           cellName.appendChild(textName);
-          cellIP.appendChild(newText);
-          cellRank.appendChild(newText);
-          cellSystem.appendChild(newText);
+          cellIP.appendChild(textIP);
+          cellRank.appendChild(textRank);
+          cellSystem.appendChild(textSystem);
           cellAction.appendChild(newText);
         }
       }
