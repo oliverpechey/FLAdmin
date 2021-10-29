@@ -104,7 +104,6 @@ client.on('connect', function () {
   client.subscribe('players', { qos: 0 });
   client.subscribe('load', { qos: 0 });
   client.subscribe('memory', { qos: 0 });
-  //client.publish('players', 'Test', { qos: 0, retain: false })
 })
 
 client.on('message', function (topic, message, packet) {
@@ -138,10 +137,54 @@ client.on('message', function (topic, message, packet) {
   }
 })
 
+function addRecentPlayer(table, player) {
+  let newRow = table.insertRow();
+
+  let cellName = newRow.insertCell();
+  let cellIP = newRow.insertCell();
+  let cellRank = newRow.insertCell();
+  let cellSystem = newRow.insertCell();
+
+  let textName = document.createTextNode(player.name);
+  let textIP = document.createTextNode(player.ip);
+  let textRank = document.createTextNode(player.rank);
+  let textSystem = document.createTextNode(player.system);
+
+  cellName.appendChild(textName);
+  cellIP.appendChild(textIP);
+  cellRank.appendChild(textRank);
+  cellSystem.appendChild(textSystem);
+}
+
+function addOnlinePlayer(table, player) {
+  let newRow = table.insertRow();
+
+  let cellClientID = newRow.insertCell();
+  let cellName = newRow.insertCell();
+  let cellIP = newRow.insertCell();
+  let cellRank = newRow.insertCell();
+  let cellSystem = newRow.insertCell();
+  let cellAction = newRow.insertCell();
+
+  let textClientID = document.createTextNode(player.id);
+  let textName = document.createTextNode(player.name);
+  let textIP = document.createTextNode(player.ip);
+  let textRank = document.createTextNode(player.rank);
+  let textSystem = document.createTextNode(player.system);
+  let newText = document.createTextNode('Filler');
+
+  cellClientID.appendChild(textClientID);
+  cellName.appendChild(textName);
+  cellIP.appendChild(textIP);
+  cellRank.appendChild(textRank);
+  cellSystem.appendChild(textSystem);
+  cellAction.appendChild(newText);
+}
+
 // Handle the messages received on the /players topic
 function ReceivePlayers(message) {
   try {
-    let players = JSON.parse(message);
+    let players = JSON.parse(message.toString());
 
     for (const p of players) {
 
@@ -160,50 +203,35 @@ function ReceivePlayers(message) {
             found = true;
           }
           else { // Remove entry
-
+            rows[r].remove();
           }
         }
       }
       // Otherwise add a new tr
-      if (!found && p.online) {
-        let newRow = table.insertRow();
-
-        let cellClientID = newRow.insertCell();
-        let cellName = newRow.insertCell();
-        let cellIP = newRow.insertCell();
-        let cellRank = newRow.insertCell();
-        let cellSystem = newRow.insertCell();
-        let cellAction = newRow.insertCell();
-
-        let textClientID = document.createTextNode(p.id);
-        let textName = document.createTextNode(p.name);
-        let textIP = document.createTextNode(p.ip);
-        let textRank = document.createTextNode(p.rank);
-        let textSystem = document.createTextNode(p.system);
-        let newText = document.createTextNode('Filler');
-
-        cellClientID.appendChild(textClientID);
-        cellName.appendChild(textName);
-        cellIP.appendChild(textIP);
-        cellRank.appendChild(textRank);
-        cellSystem.appendChild(textSystem);
-        cellAction.appendChild(newText);
-      }
+      if (!found && p.online)
+        addOnlinePlayer(table, p);
 
       // Recent Player List
       // Check if player is already here, and if so update
-      let rows = document.getElementById('recentplayers').getElementsByTagName('tr');
-      let found = false;
+      table = document.getElementById('recentplayers');
+      rows = table.getElementsByTagName('tr');
+      found = false;
       for (let r = 1; r < rows.length; r++) {
         if (rows[r].getElementsByClassName('recentname')[0].innerHTML == p.name) {
-          // Update entry TODO
+          // Update entry 
+          rows[r].children[0].innerHTML = p.name;
+          rows[r].children[1].innerHTML = p.ip;
+          rows[r].children[2].innerHTML = p.rank;
+          rows[r].children[3].innerHTML = p.system;
+
+          var date = new Date();
+          rows[r].children[4].innerHTML = date.toISOString();
           found = true;
         }
       }
       // Otherwise add a new tr
-      if (!found) {
-
-      }
+      if (!found)
+        addRecentPlayer(table, p);
     }
   }
   catch (e) {
