@@ -144,59 +144,65 @@ function ReceivePlayers(message) {
     let players = JSON.parse(message);
 
     for (const p of players) {
-      // Online, add to Online Players
-      if (p.online == true) {
-        // Check if player is already here, and if so update
-        let table = document.getElementById('playersonline');
-        let rows = table.getElementsByTagName('tr');
-        let found = false;
-        for (let r = 1; r < rows.length; r++) {
-          if (rows[r].getElementsByClassName('onlinename')[0].innerHTML == p.name) {
-            // Update entry TODO
+
+      // Check if player is already here, and if so update
+      let table = document.getElementById('playersonline');
+      let rows = table.getElementsByTagName('tr');
+      let found = false;
+      for (let r = 1; r < rows.length; r++) {
+        if (rows[r].getElementsByClassName('onlinename')[0].innerHTML == p.name) {
+          if (p.online) {
+            // Update entry
+            rows[r].children[0].innerHTML = p.id;
+            rows[r].children[2].innerHTML = p.ip;
+            rows[r].children[3].innerHTML = p.rank;
+            rows[r].children[4].innerHTML = p.system;
             found = true;
           }
-        }
-        // Otherwise add a new tr
-        if (!found) {
-          let newRow = table.insertRow();
+          else { // Remove entry
 
-          let cellClientID = newRow.insertCell();
-          let cellName = newRow.insertCell();
-          let cellIP = newRow.insertCell();
-          let cellRank = newRow.insertCell();
-          let cellSystem = newRow.insertCell();
-          let cellAction = newRow.insertCell();
-
-          let textClientID = document.createTextNode(p.id);
-          let textName = document.createTextNode(p.name);
-          let textIP = document.createTextNode(p.ip);
-          let textRank = document.createTextNode(p.rank);
-          let textSystem = document.createTextNode(p.system);
-          let newText = document.createTextNode('Filler');
-
-          cellClientID.appendChild(textClientID);
-          cellName.appendChild(textName);
-          cellIP.appendChild(textIP);
-          cellRank.appendChild(textRank);
-          cellSystem.appendChild(textSystem);
-          cellAction.appendChild(newText);
+          }
         }
       }
-      // Offline, add to Recent Players
-      else {
-        // Check if player is already here, and if so update
-        let rows = document.getElementById('recentplayers').getElementsByTagName('tr');
-        let found = false;
-        for (let r = 1; r < rows.length; r++) {
-          if (rows[r].getElementsByClassName('recentname')[0].innerHTML == p.name) {
-            // Update entry TODO
-            found = true;
-          }
-        }
-        // Otherwise add a new tr
-        if (!found) {
+      // Otherwise add a new tr
+      if (!found && p.online) {
+        let newRow = table.insertRow();
 
+        let cellClientID = newRow.insertCell();
+        let cellName = newRow.insertCell();
+        let cellIP = newRow.insertCell();
+        let cellRank = newRow.insertCell();
+        let cellSystem = newRow.insertCell();
+        let cellAction = newRow.insertCell();
+
+        let textClientID = document.createTextNode(p.id);
+        let textName = document.createTextNode(p.name);
+        let textIP = document.createTextNode(p.ip);
+        let textRank = document.createTextNode(p.rank);
+        let textSystem = document.createTextNode(p.system);
+        let newText = document.createTextNode('Filler');
+
+        cellClientID.appendChild(textClientID);
+        cellName.appendChild(textName);
+        cellIP.appendChild(textIP);
+        cellRank.appendChild(textRank);
+        cellSystem.appendChild(textSystem);
+        cellAction.appendChild(newText);
+      }
+
+      // Recent Player List
+      // Check if player is already here, and if so update
+      let rows = document.getElementById('recentplayers').getElementsByTagName('tr');
+      let found = false;
+      for (let r = 1; r < rows.length; r++) {
+        if (rows[r].getElementsByClassName('recentname')[0].innerHTML == p.name) {
+          // Update entry TODO
+          found = true;
         }
+      }
+      // Otherwise add a new tr
+      if (!found) {
+
       }
     }
   }
