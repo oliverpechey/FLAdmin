@@ -32,7 +32,7 @@ block layout-content
   
     // Standard Components
     +standard_component('Players Online')
-        .table-responsive
+        .table-responsive#table-container-playersonline
             table.table#playersonline
                 thead 
                     tr 
@@ -54,17 +54,17 @@ block layout-content
 
     .col-12.col-lg-6.col-xxl-4 
         .p-2.ojp-border.ojp-transparent(style='position:relative;')
-            h4 Recent Players
+            h4.mb-3 Recent Players
             .dropdown(style='position:absolute;right:0.5rem;top:0.5rem;')
-                button#recentPlayerButton.btn.dropdown-toggle(type='button' data-bs-toggle='dropdown' aria-expanded='false') Time
+                button#recentPlayerButton.btn.dropdown-toggle(type='button' data-bs-toggle='dropdown' aria-expanded='false')
                 ul.dropdown-menu(aria-labelledby='recentPlayerButton')
                     li
-                      .dropdown-item(onclick="Filter('day');") Last Day
+                      .dropdown-item(onclick="Filter('Day');") Last Day
                     li
-                      .dropdown-item(onclick="Filter('week');") Last Week
+                      .dropdown-item(onclick="Filter('Week');") Last Week
                     li
-                      .dropdown-item(onclick="Filter('month');") Last Month    
-            .table-responsive
+                      .dropdown-item(onclick="Filter('Month');") Last Month    
+            .table-responsive#table-container-recentplayers
                 table.table#recentplayers 
                     thead 
                         tr
@@ -83,6 +83,6 @@ block layout-content
                                 td.time(time=val.lastseen)=moment(val.lastseen).fromNow()
 
     +standard_component('Chat Log')
-        textarea.form-control(rows='8' disabled readonly)
+        textarea#chatlog-area.form-control(rows='10' disabled readonly)
             | [14:43] Raikkonen: Testing this blah blah blahyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy&#013;[14:43] Raikkonen: Test    
     +standard_component('Banned Players')

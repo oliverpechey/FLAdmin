@@ -1,13 +1,15 @@
 // Recent Players filter button (UI)
 function Filter(period) {
+  document.getElementById('recentPlayerButton').innerHTML = period;
+
   switch (period) {
-    case 'day':
+    case 'Day':
       period = 1;
       break;
-    case 'week':
+    case 'Week':
       period = 7;
       break;
-    case 'month':
+    case 'Month':
       period = 30;
       break;
   }
@@ -25,4 +27,12 @@ function Filter(period) {
   }
 }
 
-Filter('day');
+function Resize() {
+  document.getElementById('table-container-recentplayers').style.height = document.getElementById('chatlog-area').clientHeight - (0.5 * parseFloat(getComputedStyle(document.documentElement).fontSize)) + 'px';
+  document.getElementById('table-container-playersonline').style.height = document.getElementById('chatlog-area').clientHeight + 'px';
+}
+
+window.onresize = Resize;
+
+Filter('Day');
+Resize();

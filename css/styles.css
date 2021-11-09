@@ -22,6 +22,10 @@ body {
     background-color: rgba(2, 17, 20, 0.85);
 }
 
+.table {
+    margin-bottom: 0;
+}
+
 .ojp th, .table tr {
     border-color: #a1ecfb;
 }
@@ -54,4 +58,24 @@ body {
     .container-fluid {
         padding: 0;
     }
+  }
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-color: rgb(2, 157, 187);
+    border-style: solid;
+    border-width: 1px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(2, 157, 187);
   }
