@@ -88,7 +88,6 @@ function ReceivePlayers(message) {
     let players = JSON.parse(message.toString());
 
     for (const p of players) {
-
       // Check if player is already here, and if so update
       let table = document.getElementById('playersonline');
       let rows = table.getElementsByTagName('tr');
@@ -126,13 +125,17 @@ function ReceivePlayers(message) {
           rows[r].children[3].innerHTML = p.system;
 
           var date = new Date();
-          rows[r].children[4].innerHTML = date.toISOString();
+          rows[r].children[4].setAttribute('time',date.toISOString());
+          rows[r].children[4].innerHTML = moment(date.toISOString()).fromNow();
           found = true;
         }
       }
       // Otherwise add a new tr
       if (!found)
         addRecentPlayer(table, p);
+      
+      // Update list by setting filter to what it currently is
+      Filter(document.getElementById('recentPlayerButton').innerText);
     }
   }
   catch (e) {

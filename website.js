@@ -16,6 +16,7 @@ const Start = (players) => {
   app.use('/js', express.static(__dirname + '/node_modules/chart.js/dist'));
   app.use('/js', express.static(__dirname + '/node_modules/mqtt/dist'));
   app.use('/js', express.static(__dirname + '/node_modules/chartjs-adapter-date-fns/dist'));
+  app.use('/js', express.static(__dirname + '/node_modules/moment/min'));
   app.use('/js', express.static(__dirname + '/js'));
   app.use('/images', express.static(__dirname + '/images'));
 

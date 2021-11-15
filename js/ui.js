@@ -27,6 +27,7 @@ function Filter(period) {
   }
 }
 
+// This function calculates the height of some of the cols based on the height of the one thats probably the largest. This makes them uniform height.
 function Resize() {
   document.getElementById('table-container-recentplayers').style.height = document.getElementById('chatlog-area').clientHeight - (0.5 * parseFloat(getComputedStyle(document.documentElement).fontSize)) + 'px';
   document.getElementById('table-container-playersonline').style.height = document.getElementById('chatlog-area').clientHeight + 'px';
@@ -34,5 +35,6 @@ function Resize() {
 
 window.onresize = Resize;
 
+// Run functions on load
 Filter('Day');
 Resize();
