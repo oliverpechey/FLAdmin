@@ -38,27 +38,36 @@ client.on('message', function (topic, message, packet) {
   }
 })
 
-function addRecentPlayer(table, player) {
-  let newRow = table.insertRow();
+function addRecentPlayer(tbody, player) {
+  let newRow = tbody.insertRow();
+  var date = new Date();
 
   let cellName = newRow.insertCell();
   let cellIP = newRow.insertCell();
   let cellRank = newRow.insertCell();
   let cellSystem = newRow.insertCell();
+  let cellTime = newRow.insertCell();
 
   let textName = document.createTextNode(player.name);
   let textIP = document.createTextNode(player.ip);
   let textRank = document.createTextNode(player.rank);
   let textSystem = document.createTextNode(player.system);
+  let textTime = document.createTextNode(moment(date.toISOString()).fromNow());
 
   cellName.appendChild(textName);
+  cellName.classList.add('recentname');
+
   cellIP.appendChild(textIP);
   cellRank.appendChild(textRank);
   cellSystem.appendChild(textSystem);
+
+  cellTime.appendChild(textTime);
+  cellTime.classList.add('time');
+  cellTime.setAttribute('time',date.toISOString());
 }
 
-function addOnlinePlayer(table, player) {
-  let newRow = table.insertRow();
+function addOnlinePlayer(tbody, player) {
+  let newRow = tbody.insertRow();
 
   let cellClientID = newRow.insertCell();
   let cellName = newRow.insertCell();
@@ -76,6 +85,7 @@ function addOnlinePlayer(table, player) {
 
   cellClientID.appendChild(textClientID);
   cellName.appendChild(textName);
+  cellName.classList.add('onlinename');
   cellIP.appendChild(textIP);
   cellRank.appendChild(textRank);
   cellSystem.appendChild(textSystem);
@@ -89,50 +99,48 @@ function ReceivePlayers(message) {
 
     for (const p of players) {
       // Check if player is already here, and if so update
-      let table = document.getElementById('playersonline');
-      let rows = table.getElementsByTagName('tr');
+      let tbody =  document.getElementById('playersonline').getElementsByTagName('tbody');
       let found = false;
-      for (let r = 1; r < rows.length; r++) {
-        if (rows[r].getElementsByClassName('onlinename')[0].innerHTML == p.name) {
+      for (let r = 0; r < tbody[0].rows.length; r++) {
+        if (tbody[0].rows[r].getElementsByClassName('onlinename')[0].innerHTML == p.name) {
           if (p.online) {
             // Update entry
-            rows[r].children[0].innerHTML = p.id;
-            rows[r].children[2].innerHTML = p.ip;
-            rows[r].children[3].innerHTML = p.rank;
-            rows[r].children[4].innerHTML = p.system;
+            tbody[0].rows[r].children[0].innerHTML = p.id;
+            tbody[0].rows[r].children[2].innerHTML = p.ip;
+            tbody[0].rows[r].children[3].innerHTML = p.rank;
+            tbody[0].rows[r].children[4].innerHTML = p.system;
             found = true;
           }
           else { // Remove entry
-            rows[r].remove();
+            tbody[0].rows[r].remove();
           }
         }
       }
       // Otherwise add a new tr
       if (!found && p.online)
-        addOnlinePlayer(table, p);
+        addOnlinePlayer(tbody[0], p);
 
       // Recent Player List
       // Check if player is already here, and if so update
-      table = document.getElementById('recentplayers');
-      rows = table.getElementsByTagName('tr');
+      tbody = document.getElementById('recentplayers').getElementsByTagName('tbody');
       found = false;
-      for (let r = 1; r < rows.length; r++) {
-        if (rows[r].getElementsByClassName('recentname')[0].innerHTML == p.name) {
+      for (let r = 0; r < tbody[0].rows.length; r++) {
+        if (tbody[0].rows[r].getElementsByClassName('recentname')[0].innerHTML == p.name) {
           // Update entry 
-          rows[r].children[0].innerHTML = p.name;
-          rows[r].children[1].innerHTML = p.ip;
-          rows[r].children[2].innerHTML = p.rank;
-          rows[r].children[3].innerHTML = p.system;
+          tbody[0].rows[r].children[0].innerHTML = p.name;
+          tbody[0].rows[r].children[1].innerHTML = p.ip;
+          tbody[0].rows[r].children[2].innerHTML = p.rank;
+          tbody[0].rows[r].children[3].innerHTML = p.system;
 
           var date = new Date();
-          rows[r].children[4].setAttribute('time',date.toISOString());
-          rows[r].children[4].innerHTML = moment(date.toISOString()).fromNow();
+          tbody[0].rows[r].children[4].setAttribute('time',date.toISOString());
+          tbody[0].rows[r].children[4].innerHTML = moment(date.toISOString()).fromNow();
           found = true;
         }
       }
       // Otherwise add a new tr
       if (!found)
-        addRecentPlayer(table, p);
+        addRecentPlayer(tbody[0], p);
       
       // Update list by setting filter to what it currently is
       Filter(document.getElementById('recentPlayerButton').innerText);
