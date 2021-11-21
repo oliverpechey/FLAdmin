@@ -20,6 +20,11 @@ function Filter(period) {
   var rows = document.getElementById('recentplayers').getElementsByTagName('tr');
   for (let r = 1; r < rows.length; r++) {
     var playerDate = new Date(rows[r].getElementsByClassName('time')[0].getAttribute('time'));
+
+    // Reset moment so it doesnt just get stuck at "a few seconds" ago
+    rows[r].getElementsByClassName('time')[0].innerHTML = moment(rows[r].getElementsByClassName('time')[0].getAttribute('time')).fromNow();
+
+    // If the time is outside the filter range, hide
     if (playerDate < date)
       rows[r].style.display = 'none';
     else
