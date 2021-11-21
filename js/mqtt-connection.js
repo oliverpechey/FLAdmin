@@ -3,6 +3,7 @@ var client = mqtt.connect('ws://localhost:8080')
 
 client.on('connect', function () {
   client.subscribe('players', { qos: 0 });
+  client.subscribe('chat', { qos: 0 });
   client.subscribe('load', { qos: 0 });
   client.subscribe('memory', { qos: 0 });
 })
@@ -12,6 +13,9 @@ client.on('message', function (topic, message, packet) {
   switch (topic) {
     case 'players':
       ReceivePlayers(message);
+      break;
+    case 'chat':
+      ReceiveChat(message);
       break;
     case 'load':
       if (!isNaN(message)) {
@@ -148,5 +152,18 @@ function ReceivePlayers(message) {
   }
   catch (e) {
     console.log(`Error in /players topic: ${e}`);
+  }
+}
+
+// Handle chat messages
+function ReceiveChat(message) {
+  try {
+    let chat = JSON.parse(message.toString());
+    var date = new Date();
+    document.getElementById("chatlog-area").value += "\r\n[" + moment(date.toISOString()).format('HH:mm') + "] " + chat.from + " -> " + chat.to + ": " + chat.msg;
+
+  }
+  catch (e) {
+    console.log(`Error in /chat topic: ${e}`);
   }
 }
