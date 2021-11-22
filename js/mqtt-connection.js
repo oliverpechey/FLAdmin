@@ -6,6 +6,7 @@ client.on('connect', function () {
   client.subscribe('chat', { qos: 0 });
   client.subscribe('load', { qos: 0 });
   client.subscribe('memory', { qos: 0 });
+  client.publish('allplayers','true');
 })
 
 client.on('message', function (topic, message, packet) {
