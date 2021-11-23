@@ -13,47 +13,27 @@ client.on('connect', function () {
   client.publish('allplayers','true');
 })
 
+// On receiving message from MQTT broker
 client.on('message', function (topic, message, packet) {
-  console.log('Received Message:= ' + message.toString() + '\nOn topic:= ' + topic);
-  const d = new Date();
+  // Which topic are we receiving a message on?
   switch (topic) {
     case 'players':
       ReceivePlayers(message);
-      // Since we have received a message about a player need to update the chat
-      let player_item = {
-        y: player_count,
-        x: d.getTime()
-      };
-      player_data.datasets[0].data.push(player_item);
-      playerChart.update();
       break;
     case 'chat':
       ReceiveChat(message);
       break;
     case 'load':
-      if (!isNaN(message)) {
-        let load_item = {
-          y: '' + message,
-          x: d.getTime()
-        };
-        load_data.datasets[0].data.push(load_item);
-        loadChart.update();
-      }
+      ReceiveLoad(message);
       break;
     case 'memory':
-      if (!isNaN(message)) {
-        let memory_item = {
-          y: '' + message,
-          x: d.getTime()
-        };
-        memory_data.datasets[0].data.push(memory_item);
-        memoryChart.update();
-      }
+      ReceiveMemory(message);
       break;
   }
 })
 
-function addRecentPlayer(tbody, player) {
+// Inserts a player into the table as a row
+const addRecentPlayer = (tbody, player) => {
   let newRow = tbody.insertRow();
   let date = new Date();
 
@@ -81,7 +61,8 @@ function addRecentPlayer(tbody, player) {
   cellTime.setAttribute('time',date.toISOString());
 }
 
-function addOnlinePlayer(tbody, player) {
+// Inserts a player into the table as a row
+const addOnlinePlayer = (tbody, player) => {
   let newRow = tbody.insertRow();
 
   let cellClientID = newRow.insertCell();
@@ -109,10 +90,10 @@ function addOnlinePlayer(tbody, player) {
 }
 
 // Handle the messages received on the /players topic
-function ReceivePlayers(message) {
+const ReceivePlayers = (message) => {
+  let date = new Date();
   try {
     let players = JSON.parse(message.toString());
-
     for (const p of players) {
       // Check if player is already here, and if so update
       let tbody =  document.getElementById('playersonline').getElementsByTagName('tbody');
@@ -149,7 +130,7 @@ function ReceivePlayers(message) {
           tbody[0].rows[r].children[2].innerHTML = p.rank;
           tbody[0].rows[r].children[3].innerHTML = p.system;
 
-          let date = new Date();
+          // Stores the real time in the attribute and sets the inner HTML to a nicely formatted date/time
           tbody[0].rows[r].children[4].setAttribute('time',date.toISOString());
           tbody[0].rows[r].children[4].innerHTML = moment(date.toISOString()).fromNow();
           found = true;
@@ -166,10 +147,18 @@ function ReceivePlayers(message) {
   catch (e) {
     console.log(`Error in /players topic: ${e}`);
   }
+
+  // Since we have received a message about a player need to update the chat
+  let player_item = {
+    y: player_count,
+    x: date.getTime()
+  };
+  player_data.datasets[0].data.push(player_item);
+  playerChart.update();
 }
 
-// Handle chat messages
-function ReceiveChat(message) {
+// Handle receiving from /chat topic
+const ReceiveChat = (message) => {
   try {
     let chat = JSON.parse(message.toString());
     let date = new Date();
@@ -178,5 +167,31 @@ function ReceiveChat(message) {
   }
   catch (e) {
     console.log(`Error in /chat topic: ${e}`);
+  }
+}
+
+// Handle receiving from /load topic
+const ReceiveLoad = (message) => {
+  const d = new Date();
+  if (!isNaN(message)) {
+    let load_item = {
+      y: '' + message,
+      x: d.getTime()
+    };
+    load_data.datasets[0].data.push(load_item);
+    loadChart.update();
+  }
+}
+
+// Handle receiving from /memory topic
+const ReceiveMemory = (message) => {
+  const d = new Date();
+  if (!isNaN(message)) {
+    let memory_item = {
+      y: '' + message,
+      x: d.getTime()
+    };
+    memory_data.datasets[0].data.push(memory_item);
+    memoryChart.update();
   }
 }
