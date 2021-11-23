@@ -82,7 +82,7 @@ const player_data = {
     label: 'Player Count',
     backgroundColor: 'rgb(129,197,215)',
     borderColor: 'rgb(129,197,215)',
-    data: [0, 2, 2, 1, 0, 1, 3],
+    data: [],
   }]
 };
 

@@ -1,6 +1,10 @@
 // MQTT Config
-var client = mqtt.connect('ws://localhost:8080')
+let client = mqtt.connect('ws://localhost:8080')
 
+// Keep track of how many players are online
+let player_count = 0;
+
+// Subscribe to topics
 client.on('connect', function () {
   client.subscribe('players', { qos: 0 });
   client.subscribe('chat', { qos: 0 });
@@ -10,18 +14,25 @@ client.on('connect', function () {
 })
 
 client.on('message', function (topic, message, packet) {
-  console.log('Received Message:= ' + message.toString() + '\nOn topic:= ' + topic)
+  console.log('Received Message:= ' + message.toString() + '\nOn topic:= ' + topic);
+  const d = new Date();
   switch (topic) {
     case 'players':
       ReceivePlayers(message);
+      // Since we have received a message about a player need to update the chat
+      let player_item = {
+        y: player_count,
+        x: d.getTime()
+      };
+      player_data.datasets[0].data.push(player_item);
+      playerChart.update();
       break;
     case 'chat':
       ReceiveChat(message);
       break;
     case 'load':
       if (!isNaN(message)) {
-        const d = new Date();
-        var load_item = {
+        let load_item = {
           y: '' + message,
           x: d.getTime()
         };
@@ -31,8 +42,7 @@ client.on('message', function (topic, message, packet) {
       break;
     case 'memory':
       if (!isNaN(message)) {
-        const d = new Date();
-        var memory_item = {
+        let memory_item = {
           y: '' + message,
           x: d.getTime()
         };
@@ -45,7 +55,7 @@ client.on('message', function (topic, message, packet) {
 
 function addRecentPlayer(tbody, player) {
   let newRow = tbody.insertRow();
-  var date = new Date();
+  let date = new Date();
 
   let cellName = newRow.insertCell();
   let cellIP = newRow.insertCell();
@@ -95,6 +105,7 @@ function addOnlinePlayer(tbody, player) {
   cellRank.appendChild(textRank);
   cellSystem.appendChild(textSystem);
   cellAction.appendChild(newText);
+  player_count++;
 }
 
 // Handle the messages received on the /players topic
@@ -118,6 +129,7 @@ function ReceivePlayers(message) {
           }
           else { // Remove entry
             tbody[0].rows[r].remove();
+            player_count--;
           }
         }
       }
@@ -137,7 +149,7 @@ function ReceivePlayers(message) {
           tbody[0].rows[r].children[2].innerHTML = p.rank;
           tbody[0].rows[r].children[3].innerHTML = p.system;
 
-          var date = new Date();
+          let date = new Date();
           tbody[0].rows[r].children[4].setAttribute('time',date.toISOString());
           tbody[0].rows[r].children[4].innerHTML = moment(date.toISOString()).fromNow();
           found = true;
@@ -160,7 +172,7 @@ function ReceivePlayers(message) {
 function ReceiveChat(message) {
   try {
     let chat = JSON.parse(message.toString());
-    var date = new Date();
+    let date = new Date();
     document.getElementById("chatlog-area").value += "\r\n[" + moment(date.toISOString()).format('HH:mm') + "] " + chat.from + " -> " + chat.to + ": " + chat.msg;
 
   }
